@@ -1,0 +1,26 @@
+
+
+     **** New Features *****
+
+This chapter provides knowledge about the new features in ES7. 
+Exponentiation Operator
+ES7 introduces a new mathematical operator called exponentiation operator. This operator 
+is similar to using Math.pow() method. Exponentiation operator is represented by a double 
+asterisk **. The operator can be used only with numeric values. The syntax for using the 
+exponentiation operator is given below:
+Syntax
+The syntax for the exponentiation operator is mentioned below:
+base_value ** exponent_value
+Example
+The following example calculates the exponent of a number using 
+the Math.pow() method and the exponentiation operator.
+<script>
+ let base = 2
+ let exponent = 3
+ console.log('using Math.pow()',Math.pow(base,exponent))
+ console.log('using exponentiation operator',base**exponent)
+ 
+ </script>
+The output of the above snippet is as given below:
+using Math.pow() 8
+using exponentiation operator 8
