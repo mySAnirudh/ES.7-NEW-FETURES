@@ -1,0 +1,359 @@
+1. UNICODE STANDARD VERSION 8 SUPPORT
+It will allow the use of smileys, a variables can be declared using unicode as character escapes.
+
+EXAMPLE:
+
+var u{102C0} = { u{102C0} : 2 };
+return u{102C0};
+2. BINARY, HEX AND OCTAL NUMBER
+hex — base 16 — starts with 0x
+Oct — base 8 — starts with 0o
+Binary — base 2 — starts with 0b
+var decimalLit = 15;
+var hexadecimalLit = 0xF;
+var octalLit = 0o17;
+var binaryLit = 0b1111;
+console.log(decimalLit == hexadecimalLit);
+console.log(decimalLit == octalLit);
+console.log(decimalLit == binaryLit);
+3. STRING TEMPLATE
+concatenating string using +, can now be done using`
+
+OLDER VERSION:
+
+var message = "The user "+ user.firstName + "" + user.lastName +
+" cannot be "+ action + "because "+ validationError;
+NEWER VERSION:
+
+var message = `The user ${user.firstName} ${user.lastName} cannot be
+${action} because ${validationError}`;
+NOTE:
+The hard line-break between be and ${action} is because backtick strings are also “multiline literals.” This means that whitespace is preserved within the string, so the message above would appear on two lines. It would break after “be,” then display two spaces (because the code indents two spaces) before continuing.
+
+4. VARIABLE DECLARATION
+var declared variables could be reassigned, so we now have let keyword that don’t allow that. Rest all is same.
+
+var msg = "Howdy";
+var msg = "Hello there"; // acceptable, just reassigns
+On the other hand:
+
+let message = `This is your message.`;
+let message = `This is another message.`; // ERROR! can't redeclare the earlier declared variable message
+5. CONST KEYWORD
+Same as final in java and const in C/C++
+
+const message = `This is your message.`;
+message = `This is your second message.`; // ERROR! can't reassign a const variable
+6. BLOCK SCOPE
+var declared variables were not blocked scope but function scoped.let and const declared variabled will be scoped in the block they are declared.
+
+7. DESTRUCTURING ASSIGNMENT
+It breaks an array into its elements, keeping the original array unchanges. This process assignes the variables with items in the corresponding positions.
+
+EXAMPLE:
+
+let names = [“Ted”, “Jenni”, “Athen”];
+let [ted, jenni, athen] = names;
+console.log(ted, jenni, athen); // prints “Ted Jenni Athen”
+//SIMILAR TO THE FOLLOWING:
+var ted = names[0];
+var jenni = names[1];
+var athen = names[2];
+8. DESTRUCTURING IN OBJECTS
+EXAMPLES:
+
+var url = "http://www.newardassociates.com/#/speaking";
+var parsedURL = /^(w+)://([^/]+)/(.*)$/.exec(url);
+var [protocol, fullhost, fullpath] = parsedURL;
+console.log(protocol); // “http”
+let point = { x:2, y: 5 };
+let {x, y} = point;
+console.log(x, y); // prints 2, 5
+let point = { x:2, y: 5 };
+let {y, x} = point;
+console.log(x, y); // prints 2, 5
+let {y: pty, x: ptx} = point;
+console.log(ptx, pty); // prints 2, 5
+left-hand side indicating the name to match, and the right-hand side indicating the actual declared variable name:
+
+let rect = { lowerLeft: { x:0, y:0 }, upperRight: { x:3, y:4} };
+let { lowerLeft: { x:llx, y: lly }, upperRight: { x:urx, y:ury } }
+= rect;
+console.log(llx, lly, urx, ury); // prints “0 0 3 4
+9. DESTRUCTURING OBJECT PRAMETERS IN A METHOD CALL
+let person = {
+    firstName: "Ted",
+    lastName: "Neward",
+    age: 45,
+    favoriteLanguages: ["ECMAScript", "Java", "C#", "Scala", "F#"]
+}
+function displayDetails({firstName, age}) {
+    console.log(`${firstName} is ${age} years old`);
+}
+displayDetails(person);
+10. DEFAULT PARAMETER
+Now we can provide the default values of the function variables just like C/C++
+
+let sayHello = function(message = "Hello world!") {
+    console.log(message);
+}
+sayHello(); // prints "Hello world!"
+sayHello("Howdy!"); // prints "Howdy!"
+11. REST PARAMETERS TO A FUNCTION: PASSING A LIST OF ARGUMENTS
+Historically, you might have done this by accessing the built-in argumentsparameter that is silently constructed and passed to every function call:
+
+IF THE VALUES PASSED IN THE EXISTING FUNCTION EXCEEDED THE DEFINED THEN THEY WERE ADDED TO THE arguments.
+
+Those were accessed through:
+
+var args = Array.prototype.slice.call(arguments, <function-name>.length);
+IN ES6 WE NOW HAVE JAVA STYLE SYNTAX TO CAPTURE A LIST OF VALUES
+EXAMPLE:
+
+function greet(firstName, …args) {
+    console.log("Hello",firstName);
+    args.forEach(function(arg) { console.log(arg); });
+}
+greet("Ted");
+greet("Ted", "Hope", "you", "like", "this!");
+12. SPREAD PARAMETERS: OPPOSITE TO REST PARAMETERS
+This destructurs an array into individual parts and simplest use case is to concatanate arrays.
+
+let arr1 = [0, 1, 2];
+let arr2 = [...arr1, 3, 4, 5];
+console.log(arr2); // prints 0,1,2,3,4,5
+//IMPORTANT USECASE:
+function printPerson(first, last, age) {
+    console.log(first, last age);
+}
+let args = ["Ted", "Neward", 45];
+printPerson(...args);
+13. ARROW OPERATOR FOR THE FUNCTION
+The keyword of function can now be droped using => fat arrow operator.
+
+EXAMPLE:
+
+function(arg1, arg2){//something here}
+The above can now be written as:
+(arg1, arg2) => {//something here}
+NOTE:
+Also note that if the body of the arrow function is a single expression yielding a value, no explicit return is required. Instead, that single expression is implicitly returned to the arrow function’s caller. If, however, the body is more than one statement or expression, the curly brackets are mandatory, and any returned value must be sent back to the caller via the usual return syntax.
+
+14. TO ITERATE OVER THE ARRAY
+let arr = ["janishar", "ali", "anwar"]
+let displayArr = function(arr) {
+    for (let x in arr) {
+        console.log(x);
+    }
+};
+15. IF `this` IS REFERENCED FROM THE GLOBAL SCOPE THEN IT REFERS TO THE GLOBAL VARIABLES, FUNCTIONS, AND OBJECTS.
+`this` REFERS TO THE PARENT OBJECT ON WHICH THE FUNCTION IS CALLED.
+
+EXAMPLE:
+
+let displayThis = function() {
+    for (let m in this) {
+        console.log(m);
+    }
+};
+displayThis(); // this == global object
+let bob = {
+    firstName: "Bob",
+    lastName: "Robertson",
+    displayMe: displayThis
+};
+bob.displayMe(); // this == bob
+16. IN NODE JS `require(‘events’)` IS A PUB-SUB MODULE
+let EventEmitter = require('events');
+let ee = new EventEmitter();
+ee.on('event', function() {
+    console.log("function event fired", this);
+});
+ee.emit('event');
+Thumbnail Image
+NEW
+Android App Development Online Course by MindOrks
+Start your career in Android Development. Learn by doing real projects.
+
+NOTE:
+If you register a legacy function with the EventEmitter, the this captured will be the one determined at runtime. But if you register an arrow function with the EventEmitter, this will be bound at the time the arrow function is defined:
+
+17. GENERATOR FUNCTION: SIMILAR TO STREAMS IN REACTIVE PROGRAMMING
+Infinte stream is implemented using GENERATOR in ES6.
+
+EXAMPLE:
+
+function* getName() {
+    yield “Ted”;
+    yield “Charlotte”;
+    yield “Michael”;
+    yield “Matthew”;
+}
+let names = getName();
+console.log(names.next().value);
+console.log(names.next().value);
+console.log(names.next().value);
+console.log(names.next().value);
+console.log(names.next().value);
+The function will print each name in order. When it runs out of names it will print undefined.
+
+18. FOR-OF KEYWORD
+The for-of keyword is similar to for-in.
+
+There’s a subtle difference between for-of and for-in, but for the most part you can use for-of as a drop-in replacement for the older syntax. It just adds the ability to use generators implicitly
+
+19. JAVASCRIPT OBJECT BASED ENVIRONMENT
+Javascript it not a class based but and object based environment. In an object based environment, there is no classes, each object is cloned from other existing objects. When an object is cloned, it retains an emplicit reference back to its prototype.
+
+20. DEFINING A CLASS
+class Person{}
+let p = new Person();
+21. CONSTRUCTOR OF A CLASS
+class Person{
+    constructor(firstName, lastName, age){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+}
+let ted = new Person("Ted", "Neward", 45);
+console.log(ted);
+22. GETTER AND SETTER
+class Person {
+   constructor(firstName, lastName, age) {
+        console.log(arguments);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+   get firstName() { return this._firstName; }
+   set firstName(value) { this._firstName = value; }
+   get lastName() { return this._lastName; }
+   set lastName(value) { this._lastName = value; }
+   get age() { return this._age; }
+   set age(value) { this._age = value; }
+}
+NOTE:
+this._<field_name> referes to the <field_name> variable added through the constructor.
+
+23. PROTOTYPE CHAIN
+Since its earliest days, JavaScript has maintained a prototype chain from one object to another. You might assume that prototype chaining is similar to inheritance in Java or C++/C#, but there’s only one real similarity between the two techniques: When JavaScript needs to resolve a symbol that isn’t already directly on the object, it looks along the prototype chain for a possible match.
+
+24. INHERITENCE
+class Author extends Person{
+   constructor(firstName, lastName, age, subject){
+        super(firstName, lastName, age);
+        this.subject = subject;
+    }
+   get subject() { return this._subject; }
+   set subject(value) { this._subject = value; }
+   writeArticle() {
+        console.log(
+            this.firstName,
+            "just wrote an article on",
+            this.subject
+         );
+    }
+}
+let mark = new Author("Mark", "Richards", 55, "Architecture");
+mark.writeArticle();
+25. STATIC OR SINGLETON
+static field:
+
+ECMAScript 6 makes no explicit provision for static properties or fields but we can create on indirectly.
+
+class Person{
+   constructor(firstName, lastName, age){
+        console.log(arguments);
+       // Just introduce a new field on Person itself
+        // if it doesn’t already exist; otherwise, just
+        // reference the one that’s there
+        if (typeof(Person.population === 'undefined'))
+            Person.population = 0;
+
+        Person.population++;
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+//...as before
+}
+static function:
+
+To define a static method you’d use the static keyword in the class declaration for defining a function:
+
+class Person{
+   //...as before
+  static haveBaby() {
+       return Person.population++;
+   }
+}
+26. MODULE: IMPORT AND EXPORT :
+It is not supported in nodejs as of 19th May 2017
+
+EXPORT:
+
+If you have a file that you want to treat as a module — let’s call it output — you’ll simply export the symbols you want to be able to use elsewhere, like so:
+
+Listing 1. Exporting an output function
+
+// output.js
+
+export function output() {
+    console.log("OUT: ", arguments);
+}
+IMPORT:
+
+import { out } from 'output.js';
+out("I'm using output!");
+In order to use the module, you have to know all the names you wish to import. (Though some might consider this a benefit, because it ensures that no symbols will be imported without the importer’s knowledge.) If you want to grab all the exported names from a module, you can use the wildcard (*) import syntax, but then you need to define a module name where you want to scope them:
+
+WILD CARD IMPORT
+
+import * as Output from 'output';// you can also drop .js
+Output.out("I'm using output!");
+27. SYMBOL
+Symbol is a type. An instance of Symbol is a unique name that cannot be duplicated anywhere else. It is used to hold a value in secure way. Symbol’s primary function is to help programmers avoid name clashes across libraries. It’s a little awkward to grasp at first, but try thinking of Symbol as a unique hash based on the string name it’s fed.
+
+28. COLLECTION:
+Array, Map and Set
+
+MAP: A Map is a set of name/value pairs.
+
+It contains methods get() and set(), it finds and sets key/value pairs, respectively
+clear() will empty the collection entirely
+keys() returns an iterable collection of the keys in the Map
+values() does the same for the values
+Also, like Array, Map includes functional-language-inspired methods like forEach(), which operate on the Map itself.
+
+EXAMPLE:
+
+let m = new Map();
+m.set('key1', 'value1');
+m.set('key2', 'value2');
+m.forEach((key, value, map) => {
+    console.log(key,'=',value,' from ', map);
+})
+console.log(m.keys());
+console.log(m.values());
+SET:
+
+Set, more like a traditional object collection, in that objects can simply be added to the collection. But Set will examine each object in turn to ensure that it is not a duplicate of a value already present within the collection.
+
+EXAMPLE:
+
+let s = new Set();
+s.add("Ted");
+s.add("Jenni");
+s.add("Athen");
+s.add("Ted"); // duplicate!
+console.log(s.size); // 3
+29. WEAKREFERENCE
+WeakMaps and WeakSets, which are Maps and Sets that hold their values through weak references, rather than the traditional strong reference.
+
+30. PROMISE
+Promise in now inbuilt in the ES6. (We will cover promise in a separate article.)
+
+31. PROXIES
+Proxy let to change behavior to an existing object before its accessed.
